@@ -1,3 +1,10 @@
+import numpy as np
+import scipy
+import spectral
+import tensorflow as tf
+import sklearn
+
+
 class Processor:
     def __init__(self):
         pass
@@ -687,3 +694,12 @@ class Processor:
 
         white_data = np.dot(white_data, whitening)
         return white_data.reshape(data_shape), mean, whitening
+
+
+if __name__ == '__main__':
+    root = 'dataset/'
+    im_, gt_ = 'Indian_pines_corrected', 'Indian_pines_gt'
+    img_path = root + im_ + '.mat'
+    gt_path = root + gt_ + '.mat'
+    p = Processor()
+    img, gt = p.prepare_data(img_path, gt_path)
