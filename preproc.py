@@ -3,6 +3,7 @@ import scipy
 import spectral
 import tensorflow as tf
 import sklearn
+from sklearn.preprocessing import minmax_scale
 
 
 class Processor:
@@ -703,3 +704,7 @@ if __name__ == '__main__':
     gt_path = root + gt_ + '.mat'
     p = Processor()
     img, gt = p.prepare_data(img_path, gt_path)
+
+    n_row, n_column, n_band = img.shape
+    X_img = minmax_scale(img.reshape(n_row * n_column, n_band)).reshape((n_row, n_column, n_band))
+    print(X_img)
