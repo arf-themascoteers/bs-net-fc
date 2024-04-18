@@ -13,7 +13,9 @@ class Processor:
         gt_keys = gt_mat.keys()
         img_key = [k for k in img_keys if k != '__version__' and k != '__header__' and k != '__globals__']
         gt_key = [k for k in gt_keys if k != '__version__' and k != '__header__' and k != '__globals__']
-        return img_mat.get(img_key[0]).astype('float64'), gt_mat.get(gt_key[0]).astype('int8')
+        img = img_mat.get(img_key[0]).astype('float64')
+        gt = gt_mat.get(gt_key[0]).astype('int8')
+        return img, gt
 
     def get_correct(self, img, gt):
         gt_1D = gt.reshape(-1)

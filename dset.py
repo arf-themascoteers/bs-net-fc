@@ -1,11 +1,12 @@
 import numpy as np
 from torch.utils.data import Dataset
+import torch
 
 
 class DSet(Dataset):
     def __init__(self, data, label):
-        self.x = data
-        self.y = label
+        self.x = torch.tensor(data, dtype=torch.float32)
+        self.y = torch.tensor(label, dtype=torch.float32)
 
     def __len__(self):
         return len(self.y)
