@@ -53,7 +53,7 @@ class BSNetFC(nn.Module):
 
 
 if __name__ == "__main__":
-    f = BSNetFC(5)
+    f = BSNetFC()
     num_params = sum(p.numel() for p in f.parameters() if p.requires_grad)
     print("Number of learnable parameters:", num_params)
     t = torch.randn(160000, 200)

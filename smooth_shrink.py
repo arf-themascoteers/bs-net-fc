@@ -11,7 +11,9 @@ def my_relu(x, k):
     #n = 0.1
     #y[mask] = torch.sin(y[mask]*n) / torch.sin(torch.tensor(k*n)) * y[mask] * (y[mask]/torch.abs(y[mask]))
     n = 0.3
-    y[mask] = (torch.exp(y[mask]*n)-torch.exp(-y[mask]*n)) / (torch.exp(y[mask]*n)+torch.exp(-y[mask]*n))
+    #y[mask] = (torch.exp(y[mask]*n)-torch.exp(-y[mask]*n)) / (torch.exp(y[mask]*n)+torch.exp(-y[mask]*n))
+    #y[mask] = torch.tanh(n*y[mask])
+    y[mask] = torch.tanh(y[mask])
     return y
 
 x = torch.linspace(-2,2,1000)

@@ -1,4 +1,6 @@
+import numpy as np
 from sklearn.preprocessing import minmax_scale
+import pandas as pd
 
 
 class Processor:
@@ -25,6 +27,15 @@ class Processor:
         img_correct = img_2D[index]
         return img_correct, gt_correct
 
+    def dump(self, img, gt):
+        bands = img.shape[1]
+        gt = gt-1
+        bands = [str(i+1) for i in range(bands)]
+        columns = bands + ["class"]
+        data = np.concatenate((img, gt.reshape(-1,1)), axis=1)
+        df = pd.DataFrame(columns=columns, data=data)
+        df.to_csv("dataset/pines.csv", index=False)
+
 
 if __name__ == '__main__':
     root = 'dataset/'
@@ -37,5 +48,4 @@ if __name__ == '__main__':
     n_row, n_column, n_band = img.shape
     X_img = minmax_scale(img.reshape(n_row * n_column, n_band)).reshape((n_row, n_column, n_band))
     img_correct, gt_correct = p.get_correct(X_img, gt)
-    print(img_correct)
-    print(gt_correct)
+    p.dump(img_correct, gt_correct)
