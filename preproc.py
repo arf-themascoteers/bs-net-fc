@@ -27,14 +27,15 @@ class Processor:
         img_correct = img_2D[index]
         return img_correct, gt_correct
 
-    def dump(self, img, gt):
+    def dump(self, img, gt, filename,reduce=False):
         bands = img.shape[1]
-        gt = gt-1
+        if reduce:
+            gt = gt-1
         bands = [str(i+1) for i in range(bands)]
-        columns = bands + ["class"]
-        data = np.concatenate((img, gt.reshape(-1,1)), axis=1)
+        columns = ["class"] + bands
+        data = np.concatenate((gt.reshape(-1,1), img), axis=1)
         df = pd.DataFrame(columns=columns, data=data)
-        df.to_csv("dataset/pines.csv", index=False)
+        df.to_csv(f"dataset/{filename}", index=False)
 
 
 if __name__ == '__main__':
@@ -48,4 +49,10 @@ if __name__ == '__main__':
     n_row, n_column, n_band = img.shape
     X_img = minmax_scale(img.reshape(n_row * n_column, n_band)).reshape((n_row, n_column, n_band))
     img_correct, gt_correct = p.get_correct(X_img, gt)
-    p.dump(img_correct, gt_correct)
+    p.dump(img_correct, gt_correct, "indian_pines.csv",True)
+
+    gt_1D = gt.reshape(-1)
+    img_2D = X_img.reshape(img.shape[0] * img.shape[1], img.shape[2])
+
+    p.dump(img_2D, gt_1D, "indian_pines2.csv")
+    print("Done")
